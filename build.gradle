@@ -1,0 +1,58 @@
+buildscript {
+  ext {
+    springBootVersion = '2.1.2.RELEASE'
+  }
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
+}
+
+plugins {
+  id 'java'
+  id 'war'
+  id 'eclipse'
+  id 'eclipse-wtp'
+  id 'idea'
+  id 'org.springframework.boot' version '2.1.2.RELEASE'
+  id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+}
+
+
+group = 'com.myproject'
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+task initSrc  {
+  doLast {
+    project.sourceSets*.allSource.srcDirTrees.flatten().dir.each { dir ->
+      dir.mkdirs()
+    }
+  }
+}
+
+configurations {
+  developmentOnly
+  runtimeClasspath {
+    extendsFrom developmentOnly
+  }
+}
+
+dependencies {
+  implementation      'org.apache.commons:commons-lang3:3.8.1'
+  implementation      'org.apache.commons:commons-collections4:4.2'
+
+  implementation      'org.springframework.boot:spring-boot-starter'
+  testImplementation  'org.springframework.boot:spring-boot-starter-test'
+
+  implementation      'org.springframework.boot:spring-boot-starter-web'
+  implementation      'org.springframework.boot:spring-boot-starter-jdbc'
+
+
+  developmentOnly     'org.springframework.boot:spring-boot-devtools'
+  providedRuntime     'org.springframework.boot:spring-boot-starter-tomcat'
+}
